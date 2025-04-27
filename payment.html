@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      margin: 50px auto;
+    }
+    h2 {
+      color: #ff66b2;
+    }
+    input, button, select {
+      margin: 10px;
+      padding: 10px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ff99cc;
+      outline: none;
+    }
+    button {
+      background-color: #ff66b2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+    .price {
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ff66b2;
+    }
+    .link {
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ff66b2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Proceed to Payment</h2>
+  
+  <h3>Selected Train</h3>
+  <p><strong>Train:</strong> <span id="trainName">Express 101</span></p>
+  <p><strong>From:</strong> <span id="trainFrom">Chennai</span></p>
+  <p><strong>To:</strong> <span id="trainTo">Bangalore</span></p>
+  <p><strong>Date:</strong> <span id="trainDate">2025-05-10</span></p>
+
+  <h3>Class Selected:</h3>
+  <p id="selectedClass">First Class</p>
+
+  <h3>Number of Seats:</h3>
+  <p id="selectedSeats">1 seat</p>
+
+  <h3>Total Amount</h3>
+  <div id="totalAmount" class="price">Total: ₹250</div>
+
+  <h3>Payment Details</h3>
+  <input type="text" id="cardName" placeholder="Card Holder Name" required>
+  <input type="text" id="cardNumber" placeholder="Card Number (16 digits)" maxlength="16" required>
+  <input type="password" id="cardPassword" placeholder="Card Password (6 digits)" maxlength="6" required>
+
+  <button onclick="processPayment()">Pay</button>
+  <button onclick="cancelPayment()">Cancel</button>
+
+  <!-- Link to booked.html (appears after successful payment) -->
+  <div class="link" id="bookingLink" style="display:none;">
+    <p>Click below to view your booking details:</p>
+    <a href="booked.html" style="color: #ff66b2; font-weight: bold;">Go to Booked Details</a>
+  </div>
+</div>
+
+<script>
+  // Get the selected class, seats, and train details from localStorage
+  const selectedClass = localStorage.getItem("selectedClass") || "First Class";
+  const selectedSeats = parseInt(localStorage.getItem("selectedSeats")) || 1;
+  const selectedTrain = JSON.parse(localStorage.getItem("selectedTrain")) || {};
+
+  const priceElement = document.getElementById("totalAmount");
+  const classElement = document.getElementById("selectedClass");
+  const seatsElement = document.getElementById("selectedSeats");
+  const trainNameElement = document.getElementById("trainName");
+  const trainFromElement = document.getElementById("trainFrom");
+  const trainToElement = document.getElementById("trainTo");
+  const trainDateElement = document.getElementById("trainDate");
+
+  // If selected train exists, update the details on the page
+  if (selectedTrain && selectedTrain.from) {
+    trainNameElement.innerText = selectedTrain.name || "Express 101";
+    trainFromElement.innerText = selectedTrain.from || "Chennai";
+    trainToElement.innerText = selectedTrain.to || "Bangalore";
+    trainDateElement.innerText = selectedTrain.date || "2025-05-10";
+  }
+
+  // Set the class, price, and total amount based on the selection
+  let seatPrice = selectedClass === "First Class" ? 250 : 220;
+  let totalAmount = seatPrice * selectedSeats;
+
+  classElement.innerText = selectedClass;
+  seatsElement.innerText = `${selectedSeats} seat${selectedSeats > 1 ? 's' : ''}`;
+  priceElement.innerText = `Total: ₹${totalAmount}`;
+
+  function processPayment() {
+    const cardName = document.getElementById("cardName").value;
+    const cardNumber = document.getElementById("cardNumber").value;
+    const cardPassword = document.getElementById("cardPassword").value;
+
+    if (cardNumber.length !== 16 || cardPassword.length !== 6) {
+      alert("Please ensure your card number is 16 digits and password is 6 digits.");
+      return;
+    }
+
+    // Store the booking details in localStorage
+    const bookingDetails = {
+      train: selectedTrain.name || "Express 101",
+      from: selectedTrain.from || "Chennai",
+      to: selectedTrain.to || "Bangalore",
+      date: selectedTrain.date || "2025-05-10",
+      class: selectedClass,
+      pricePerSeat: seatPrice,
+      seats: selectedSeats,
+      totalAmount: totalAmount
+    };
+    localStorage.setItem("bookingDetails", JSON.stringify(bookingDetails));
+
+    // Proceed with payment (just showing an alert for now)
+    alert("Payment Successful! Your booking is confirmed.");
+
+    // Show the link to the booked details page
+    document.getElementById("bookingLink").style.display = "block";  // Show the link to booked details page
+    window.location.href = 'booked.html';  // Redirect to booked.html
+  }
+
+  function cancelPayment() {
+    if (confirm("Are you sure you want to cancel the payment?")) {
+      window.location.href = 'home.html';  // Redirect back to home
+    }
+  }
+</script>
+
+</body>
+</html>

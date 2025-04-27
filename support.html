@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Help & Support | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+    }
+    nav {
+      background: #ff99cc;
+      padding: 15px;
+      text-align: center;
+    }
+    nav h2 {
+      color: white;
+    }
+    #help-support {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      border: 1px solid #ff99cc;
+      border-radius: 5px;
+      background-color: #fff;
+    }
+    #help-support h3 {
+      margin-bottom: 20px;
+    }
+    #help-support input, #help-support textarea {
+      width: 100%;
+      padding: 12px;  /* Increased padding for more space inside */
+      margin-bottom: 20px;
+      border: 1px solid #ff99cc;
+      border-radius: 5px;
+      box-sizing: border-box; /* Ensure padding doesn't affect overall width */
+    }
+    #help-support button {
+      background-color: #ff66b2;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #help-support button:hover {
+      background-color: #ff3385;
+    }
+    #confirmation-message {
+      margin-top: 15px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <h2>Railway Reservation System</h2>
+   
+      <li><a href="home.html">Home</a></li>
+      <li><a href="support.html">Help & Support</a></li>
+    
+  </nav>
+
+  <!-- Help and Support Form -->
+  <div id="help-support">
+    <h3>Need Help? Contact Us!</h3>
+    <form id="support-form">
+      <label for="email">Your Email:</label>
+      <input type="email" id="email" name="email" required placeholder="Enter your email">
+      
+      <label for="message">Your Message:</label>
+      <textarea id="message" name="message" required placeholder="Describe your issue..."></textarea>
+      
+      <button type="submit">Send Message</button>
+    </form>
+    <p id="confirmation-message" style="display:none;">Your email has been sent. We will reply soon!</p>
+  </div>
+
+  <script>
+    // Handling the help & support form submission
+    document.getElementById('support-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      let email = document.getElementById('email').value;
+      let message = document.getElementById('message').value;
+
+      if (email && message) {
+        // Simulate email sending (log to console for now)
+        console.log('Email sent to support:', email);
+        console.log('Message:', message);
+
+        // Show confirmation message
+        document.getElementById('confirmation-message').style.display = 'block';
+
+        // Clear the form fields
+        document.getElementById('email').value = '';
+        document.getElementById('message').value = '';
+      } else {
+        alert('Please fill in both the email and message fields.');
+      }
+    });
+  </script>
+
+</body>
+</html>

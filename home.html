@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+    }
+    nav {
+      background: #ff99cc;
+      padding: 15px;
+      text-align: center;
+    }
+    nav h2 {
+      color: white;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+    nav ul li {
+      margin: 0 15px;
+    }
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+    }
+    .container {
+      padding: 20px;
+      text-align: center;
+    }
+    button, input, select {
+      margin: 10px;
+      padding: 10px;
+      border: 1px solid #ff66b2;
+      border-radius: 10px;
+      outline: none;
+    }
+    button {
+      background-color: #ff66b2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+    table {
+      margin: 20px auto;
+      width: 80%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      background: #ffe6f0;
+      border: 1px solid #ff99cc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <h2>Railway Reservation System</h2>
+    <ul>
+      <li><a href="home.html">Home</a></li>
+      <li><a href="support.html">Help & Support</a></li> 
+      <!-- Link to Support Page -->
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h3>Train Schedule</h3>
+    <button onclick="generateTrains()">Generate Schedule</button>
+    <div id="trainList"></div>
+
+    <h3>Search Trains</h3>
+    <input type="text" id="from" placeholder="From">
+    <input type="text" id="to" placeholder="To">
+    <input type="date" id="date">
+    <select id="trainClass">
+      <option value="First Class">First Class</option>
+      <option value="Sleeper">Sleeper</option>
+    </select>
+    <input type="number" id="seats" placeholder="Number of Seats" min="1" max="50" required>
+    <button onclick="searchTrains()">Search</button>
+    
+    <div id="availableTrains"></div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    let trains = [];
+
+    function generateTrains() {
+      trains = [
+        {from: 'Chennai', to: 'Bangalore', time: '10:00 AM', firstClassAvailable: 5, sleeperAvailable: 20},
+        {from: 'Delhi', to: 'Mumbai', time: '2:00 PM', firstClassAvailable: 2, sleeperAvailable: 10},
+        {from: 'Hyderabad', to: 'Pune', time: '6:00 PM', firstClassAvailable: 8, sleeperAvailable: 25}
+      ];
+      let output = '<table><tr><th>From</th><th>To</th><th>Time</th><th>First Class Availability</th><th>Sleeper Availability</th></tr>';
+      trains.forEach(train => {
+        output += `<tr><td>${train.from}</td><td>${train.to}</td><td>${train.time}</td><td>${train.firstClassAvailable}</td><td>${train.sleeperAvailable}</td></tr>`;
+      });
+      output += '</table>';
+      document.getElementById('trainList').innerHTML = output;
+    }
+
+    function searchTrains() {
+  let from = document.getElementById('from').value;
+  let to = document.getElementById('to').value;
+  let date = document.getElementById('date').value;
+  let selectedClass = document.getElementById('trainClass').value;
+  let seats = document.getElementById('seats').value;
+
+  if(!from || !to || !date || !seats) {
+    alert('Please fill all fields');
+    return;
+  }
+
+  localStorage.setItem("selectedClass", selectedClass);
+  localStorage.setItem("selectedSeats", seats);
+
+  let available = trains.filter(train => 
+    train.from.toLowerCase() === from.toLowerCase() && 
+    train.to.toLowerCase() === to.toLowerCase()
+  );
+
+  if(available.length > 0) {
+    // Save selected train details to localStorage
+    localStorage.setItem("selectedTrain", JSON.stringify({
+      name: "Express 101", // Change this if your train object contains a name property
+      from: from,
+      to: to,
+      date: date
+    }));
+
+    let output = '<table><tr><th>From</th><th>To</th><th>Time</th><th>Class</th><th>Available Seats</th><th>Action</th></tr>';
+    
+    available.forEach(train => {
+      let availableSeats = selectedClass === 'First Class' ? train.firstClassAvailable : train.sleeperAvailable;
+
+      if (seats > availableSeats) {
+        availableSeats = 0;
+      }
+
+      output += `
+        <tr>
+          <td>${train.from}</td>
+          <td>${train.to}</td>
+          <td>${train.time}</td>
+          <td>${selectedClass}</td>
+          <td>${availableSeats}</td>
+          <td>
+            ${availableSeats > 0 ? 
+              `<button onclick="bookTrain()">Book</button>` : 
+              `<button disabled>Seats Unavailable</button>`}
+          </td>
+        </tr>
+      `;
+    });
+    output += '</table>';
+    document.getElementById('availableTrains').innerHTML = output;
+  } else {
+    document.getElementById('availableTrains').innerHTML = 'No trains available for selected route.';
+  }
+}
+
+
+    function bookTrain() {
+      window.location.href = 'payment.html';
+    }
+  </script>
+
+</body>
+</html>

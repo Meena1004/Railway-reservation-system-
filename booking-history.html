@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking History | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    .booking-list {
+      margin-top: 20px;
+      list-style-type: none;
+      padding: 0;
+    }
+    .booking-list li {
+      background: #fff;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    .booking-list li a {
+      text-decoration: none;
+      color: #ff66b2;
+      font-weight: bold;
+    }
+    .booking-list li:hover {
+      background-color: #ff66b2;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Booking History</h2>
+
+  <div id="bookingHistory">
+    <!-- Booking history will be inserted here -->
+  </div>
+</div>
+
+<script>
+  // Retrieve booking history from localStorage
+  const bookingHistory = JSON.parse(localStorage.getItem("bookingHistory")) || [];
+
+  if (bookingHistory.length > 0) {
+    let historyHTML = '<ul class="booking-list">';
+    bookingHistory.forEach((booking, index) => {
+      historyHTML += `
+        <li>
+          <a href="booking-detail.html?index=${index}">
+            ${booking.train} - ${booking.from} to ${booking.to} - ${booking.date}
+          </a>
+        </li>
+      `;
+    });
+    historyHTML += '</ul>';
+    document.getElementById('bookingHistory').innerHTML = historyHTML;
+  } else {
+    document.getElementById('bookingHistory').innerHTML = '<p>No bookings found.</p>';
+  }
+</script>
+
+</body>
+</html>

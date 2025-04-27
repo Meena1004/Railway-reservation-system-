@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | Railway Reservation</title>
+  <style>
+    body {
+      background: #ffe6f0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: #fff0f5;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    input, button {
+      margin: 10px 0;
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #ff99cc;
+      border-radius: 10px;
+      outline: none;
+    }
+    button {
+      background-color: #ff66b2;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3385;
+    }
+  </style>
+</head>
+<body>
+<div class="login-box">
+  <h2>Login</h2>
+  <input type="text" id="username" placeholder="Username (5-15 characters)"><br>
+  <input type="password" id="password" placeholder="Password (6 digits)"><br>
+  <button onclick="login()">Login</button>
+</div>
+
+<script>
+  function login() {
+    var user = document.getElementById('username').value;
+    var pass = document.getElementById('password').value;
+
+    // Username validation (5-15 characters)
+    if(user.length < 5 || user.length > 15) {
+      alert('Username must be between 5 and 15 characters!');
+      return;
+    }
+
+    // Password validation (6 digits)
+    if(pass.length !== 6 || isNaN(pass)) {
+      alert('Password must be exactly 6 digits!');
+      return;
+    }
+
+    // If validation passes, redirect to home
+    alert('Login Successful!');
+    window.location.href = 'home.html';
+  }
+</script>
+</body>
+</html>

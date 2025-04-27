@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Details | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      margin: 50px auto;
+    }
+    h2 {
+      color: #ff66b2;
+    }
+    .details {
+      font-size: 18px;
+      color: #ff66b2;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Booking Details</h2>
+
+  <div id="bookingDetails">
+    <!-- The booking details will be inserted here -->
+  </div>
+</div>
+
+<script>
+  // Get the index from the URL
+  const urlParams = new URLSearchParams(window.location.search);
+  const index = urlParams.get('index');
+
+  // Retrieve the booking history from localStorage
+  const bookingHistory = JSON.parse(localStorage.getItem("bookingHistory")) || [];
+
+  if (index && bookingHistory[index]) {
+    const booking = bookingHistory[index];
+
+    // Display the booking details
+    const detailsElement = document.getElementById('bookingDetails');
+    detailsElement.innerHTML = `
+      <p class="details"><strong>Train:</strong> ${booking.train}</p>
+      <p class="details"><strong>From:</strong> ${booking.from}</p>
+      <p class="details"><strong>To:</strong> ${booking.to}</p>
+      <p class="details"><strong>Date:</strong> ${booking.date}</p>
+      <p class="details"><strong>Class:</strong> ${booking.class}</p>
+      <p class="details"><strong>Seats:</strong> ${booking.seats}</p>
+      <p class="details"><strong>Total Amount:</strong> ₹${booking.totalAmount}</p>
+    `;
+  } else {
+    document.getElementById('bookingDetails').innerHTML = 'Booking not found.';
+  }
+</script>
+
+</body>
+</html>

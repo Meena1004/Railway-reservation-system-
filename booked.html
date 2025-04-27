@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Booking Confirmation | Railway Reservation</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      margin: 50px auto;
+    }
+    h2 {
+      color: #ff66b2;
+    }
+    .price {
+      margin: 20px 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ff66b2;
+    }
+    .details {
+      margin: 10px 0;
+      font-size: 16px;
+      color: #ff66b2;
+    }
+    .history-button {
+      background-color: #ff66b2;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .history-button:hover {
+      background-color: #ff3385;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Booking Confirmation</h2>
+
+  <h3>Your Booking Details</h3>
+
+  <div id="bookingDetails">
+    <!-- The booking details will be inserted here -->
+  </div>
+
+  <div id="totalAmount" class="price">Total Amount: ₹0</div>
+
+  <button class="history-button" onclick="viewBookingHistory()">View Booking History</button>
+</div>
+
+<script>
+  // Retrieve booking details from localStorage
+  const bookingDetails = JSON.parse(localStorage.getItem("bookingDetails"));
+
+  if (bookingDetails) {
+    // Display booking information
+    const detailsElement = document.getElementById("bookingDetails");
+    detailsElement.innerHTML = `
+      <p class="details"><strong>Train:</strong> ${bookingDetails.train}</p>
+      <p class="details"><strong>From:</strong> ${bookingDetails.from}</p>
+      <p class="details"><strong>To:</strong> ${bookingDetails.to}</p>
+      <p class="details"><strong>Date:</strong> ${bookingDetails.date}</p>
+      <p class="details"><strong>Class:</strong> ${bookingDetails.class}</p>
+      <p class="details"><strong>Seats:</strong> ${bookingDetails.seats}</p>
+    `;
+
+    // Display total amount
+    const totalAmountElement = document.getElementById("totalAmount");
+    totalAmountElement.innerHTML = `Total Amount: ₹${bookingDetails.totalAmount}`;
+  } else {
+    document.getElementById("bookingDetails").innerHTML = "No booking details found.";
+  }
+
+  // Function to handle viewing booking history
+  function viewBookingHistory() {
+    window.location.href = 'booking-history.html'; // Redirect to the booking history page
+  }
+
+  // Save the booking details in history (localStorage)
+  if (bookingDetails) {
+    let bookingHistory = JSON.parse(localStorage.getItem("bookingHistory")) || [];
+    bookingHistory.push(bookingDetails);
+    localStorage.setItem("bookingHistory", JSON.stringify(bookingHistory));
+  }
+</script>
+
+</body>
+</html>
