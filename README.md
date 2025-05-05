@@ -77,3 +77,5 @@ Limitations of the System:
   No Real Backend: The system uses localStorage to simulate the saving and retrieval of booking data. It is device-dependent, meaning the data will only be available on the same device/browser where it was saved.
 
   Simulated Payment: The payment process is not real; it only demonstrates the steps involved in completing a booking. There is no actual payment gateway integration.
+
+  
