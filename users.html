@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>All Logged-In Users</title>
+  <style>
+    body {
+      background: #fff0f5;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      background: #ffe6f0;
+      margin: 10px auto;
+      padding: 10px;
+      width: 300px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<h2>All Logged-In Users</h2>
+<button onclick="logout()" style="margin: 20px;">Logout</button>
+<ul id="userList"></ul>
+
+<script>
+  const users = JSON.parse(localStorage.getItem('allUsers')) || [];
+
+  if (users.length > 0) {
+    let listHTML = '';
+    users.forEach(user => {
+      listHTML += `<li>${user}</li>`;
+    });
+    document.getElementById('userList').innerHTML = listHTML;
+  } else {
+    document.getElementById('userList').innerHTML = '<p>No users logged in yet.</p>';
+  }
+  function logout() {
+  localStorage.removeItem('loggedInUser');
+  alert('Logged out successfully!');
+  window.location.href = 'login.html';
+}
+
+</script>
+
+</body>
+</html>
